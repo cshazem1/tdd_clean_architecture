@@ -13,25 +13,24 @@ Future<void> main() async {
  MockWeatherRepo? mocWeatherRepo;
 setUp((){
   mocWeatherRepo = MockWeatherRepo();
+  getCurrentWeatherUseCase = GetCurrentWeatherUseCase(mocWeatherRepo!);
 
 });
   const testWeatherDetail=WeatherEntity(name: 'New York', country: "Clods", icon: 'wow', condition: "Sunny");
 
   const testCityName = 'New';
   test('get current weather', () async {
+    // arrange
     when(
         mocWeatherRepo!.getCurrentWeather(testCityName)
     ).thenAnswer(
             (_)async => const Right(testWeatherDetail)
 
     );
+    //act
     final result = await getCurrentWeatherUseCase!(testCityName);
+    // assert
     expect(result, const Right(testWeatherDetail));
-    print(Right(testWeatherDetail));
-    print(result);
-    // arrange
-//act
-// assert
   });
 
 
