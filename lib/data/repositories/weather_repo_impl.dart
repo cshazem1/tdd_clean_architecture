@@ -11,7 +11,6 @@ import '../../domain/repositories/weather_repo.dart';
 class WeatherRepoImpl extends WeatherRepo{
   @override
   Future<Either<Failure, WeatherEntity>> getCurrentWeather(String city) {
-    // TODO: implement getCurrentWeather
-    throw UnimplementedError();
+    return Future.value(const Right(WeatherEntity(name: 'New', country: "Clods", icon: 'wow', condition: "Sunny")));
   }
 }
