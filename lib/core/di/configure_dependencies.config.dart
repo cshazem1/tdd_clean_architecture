@@ -10,7 +10,9 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i174;
+import 'package:http/http.dart' as _i519;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:tdd/data/data_sources/remote_data_rsource.dart' as _i724;
 import 'package:tdd/data/repositories/weather_repo_impl.dart' as _i778;
 import 'package:tdd/domain/repositories/weather_repo.dart' as _i675;
 import 'package:tdd/domain/use_cases/get_current_weather_use_case.dart'
@@ -23,7 +25,12 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
-    gh.lazySingleton<_i675.WeatherRepo>(() => _i778.WeatherRepoImpl());
+    gh.lazySingleton<_i724.WeatherRemoteDataResource>(
+      () => _i724.WeatherRemoteDataResourceImpl(gh<_i519.Client>()),
+    );
+    gh.lazySingleton<_i675.WeatherRepo>(
+      () => _i778.WeatherRepoImpl(gh<_i724.WeatherRemoteDataResource>()),
+    );
     gh.lazySingleton<_i237.GetCurrentWeatherUseCase>(
       () => _i237.GetCurrentWeatherUseCase(gh<_i675.WeatherRepo>()),
     );

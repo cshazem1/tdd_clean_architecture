@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
@@ -18,42 +20,49 @@ void main() {
       mocHttpClient,
     );
   });
-  group("get current weather", () {
+  group("get current weather", ()
+  {
     test("should return weather model when the response code is 200", () async {
       // arrange
       when(
         mocHttpClient.get(Uri.parse(Urls.currentWeatherByName('New York'))),
       ).thenAnswer(
-        (_) async => http.Response(
-          readJson('helpers/dummy_data/dummy_weather_response.json'),
-          200,
-        ),
+            (_) async =>
+            http.Response(
+              readJson('helpers/dummy_data/dummy_weather_response.json'),
+              200,
+            ),
       );
       // act
       final result = await weatherRemoteDataSourceImplement.getCurrentWeather(
         'New York',
       );
+      print("Mocked response body: ${result.toString()}");
+
       // assert
       expect(result, isA<WeatherModel>());
     });
 
-    test("should return weather model when the response code is 404 or other", () async {
-      // arrange
-      when(
-        mocHttpClient.get(Uri.parse(Urls.currentWeatherByName('New York'))),
-      ).thenAnswer(
-            (_) async => http.Response(
-         "Not found",
-          404,
-        ),
-      );
-      // act
-      final result = await weatherRemoteDataSourceImplement.getCurrentWeather(
-        'New York',
-      );
-      // assert
-      expect(result, null);
-    });
+    test(
+      "should throw ServerException with correct message when the response code is 404",
+          () async {
+        // arrange
+        when(
+          mocHttpClient.get(Uri.parse(Urls.currentWeatherByName('New York'))),
+        ).thenAnswer(
+              (_) async =>
+              http.Response('Error', 404),
+        );
 
+        // act + assert
+        try {
+          await weatherRemoteDataSourceImplement.getCurrentWeather('New York');
+          fail('Expected ServerException but got success');
+        } catch (e) {
+          expect(e, isA<ServerException>());
+          print("Mocked response body: ${e.toString()}");
+        }
+      },
+    );
   });
 }
