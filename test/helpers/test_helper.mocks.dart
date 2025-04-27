@@ -13,7 +13,7 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i12;
 import 'package:tdd/core/error/failure.dart' as _i7;
 import 'package:tdd/data/data_sources/remote_data_rsource.dart' as _i9;
-import 'package:tdd/data/models/weather_model.dart' as _i3;
+import 'package:tdd/data/models/WeatherModel.dart' as _i3;
 import 'package:tdd/domain/entities/weather_entity.dart' as _i8;
 import 'package:tdd/domain/repositories/weather_repo.dart' as _i4;
 import 'package:tdd/domain/use_cases/get_current_weather_use_case.dart' as _i10;

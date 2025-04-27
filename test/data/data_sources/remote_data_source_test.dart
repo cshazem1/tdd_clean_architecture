@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:tdd/core/constants/constants.dart';
 import 'package:tdd/core/error/server_exception.dart';
 import 'package:tdd/data/data_sources/remote_data_rsource.dart';
-import 'package:tdd/data/models/weather_model.dart';
+import 'package:tdd/data/models/WeatherModel.dart';
 
 import '../../helpers/dummy_data/json_reader.dart';
 import '../../helpers/test_helper.mocks.dart';
